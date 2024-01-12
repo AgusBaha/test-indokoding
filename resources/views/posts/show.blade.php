@@ -20,8 +20,9 @@
     @auth
     <hr>
     <h4>Leave a Comment:</h4>
-    <form action="{{ route('koment.store', ['postId' => $post->id]) }}" method="post">
+    <form action="{{ route('comment.store') }}" method="post">
         @csrf
+        <input type="hidden" name="post_id" value="{{ $post->id }}">
         <div class="form-group">
             <label for="content">Comment</label>
             <textarea name="content" id="content" class="form-control" rows="3"></textarea>
