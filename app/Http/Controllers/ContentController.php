@@ -13,7 +13,6 @@ class ContentController extends Controller
     public function index()
     {
         $post = Post::all();
-        // dd($post);
         return view('kontentArtikel.index', compact('post'));
     }
 

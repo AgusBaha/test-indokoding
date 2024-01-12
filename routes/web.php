@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CommentsController;
 use App\Http\Controllers\ContentController;
 use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
@@ -20,11 +21,12 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::get('/', [ContentController::class, 'index'])->name('content.index');
+Route::resource('comment', CommentsController::class);
 
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::group(['middleware' => ['role:admin']], function () {
-    Route::resource('posts', PostController::class);
-});
+Route::resource('posts', PostController::class);
+// Route::group(['middleware' => ['role:admin']], function () {
+// });
