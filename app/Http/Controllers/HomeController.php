@@ -27,7 +27,7 @@ class HomeController extends Controller
         $user = Auth::user();
 
         if ($user->hasRole('user')) {
-            return redirect()->route('comment.index'); // Ganti dengan nama route user jika diperlukan
+            return redirect()->route('comment.index');
         }
 
         return view('home');

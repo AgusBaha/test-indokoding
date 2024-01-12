@@ -65,6 +65,13 @@
                             </div>
                         </li>
                         @endhasrole
+                        @hasrole('user')
+                        <li class="nav-item dropdown">
+                            <a class="nav-link" href="{{ route('comment.index') }}">
+                                All Posts
+                            </a>
+                        </li>
+                        @endhasrole
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                                 data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>

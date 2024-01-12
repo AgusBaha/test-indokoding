@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Comment;
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CommentsController extends Controller
 {
@@ -38,7 +39,7 @@ class CommentsController extends Controller
         $comment = new Comment([
             'content' => $request->content,
             'post_id' => $postId,
-            'user_id' => auth()->id(), // Assuming you're using authentication
+            'author_id' => Auth::user()->id,
         ]);
         $comment->save();
 

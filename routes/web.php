@@ -28,5 +28,7 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::resource('posts', PostController::class);
+Route::post('/comments/{postId}', [CommentsController::class, 'store'])->name('koment.store');
+
 // Route::group(['middleware' => ['role:admin']], function () {
 // });
