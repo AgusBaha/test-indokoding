@@ -5,28 +5,23 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Comment extends Model
+class Reply extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'content',
-        'post_id',
+        'comment_id',
         'author_id',
     ];
 
-    public function post()
+    public function comment()
     {
-        return $this->belongsTo(Post::class);
+        return $this->belongsTo(Comment::class);
     }
 
     public function author()
     {
         return $this->belongsTo(User::class, 'author_id');
-    }
-
-    public function replies()
-    {
-        return $this->hasMany(Reply::class);
     }
 }
