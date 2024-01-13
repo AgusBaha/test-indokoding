@@ -29,6 +29,8 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::resource('posts', PostController::class);
+Route::post('/like-post', [PostController::class, 'likePost'])->name('like.post');
+// Route::post('/like-post', 'PostController@likePost')->name('like.post');
 Route::post('/comments/{commentId}/replies', [ReplyController::class, 'store']);
 
 // Route::group(['middleware' => ['role:admin']], function () {

@@ -12,8 +12,8 @@ class ContentController extends Controller
      */
     public function index()
     {
-        $post = Post::all();
-        return view('kontentArtikel.index', compact('post'));
+        $posts = Post::all();
+        return view('kontentArtikel.index', compact('posts'));
     }
 
     /**

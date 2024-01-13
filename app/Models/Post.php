@@ -12,6 +12,7 @@ class Post extends Model
         'title',
         'content',
         'author_id',
+        'likes',
     ];
 
     public function author()

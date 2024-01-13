@@ -89,4 +89,19 @@ class PostController extends Controller
 
         return redirect()->route('posts.index')->with('success', 'Post deleted successfully.');
     }
+
+    public function likePost(Request $request)
+    {
+        $postId = $request->input('post_id');
+        $post = Post::find($postId);
+
+        if (!$post) {
+            return response()->json(['error' => 'Post not found'], 404);
+        }
+
+        $post->likes += 1;
+        $post->save();
+
+        return response()->json(['likes' => $post->likes]);
+    }
 }

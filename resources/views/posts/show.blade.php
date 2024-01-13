@@ -8,8 +8,9 @@
 
     <h4>Posted by: {{ $post->author->name }} on {{ $post->created_at->format('M d, Y') }}</h4>
 
+    <h5>Likes: <span id="like-count" data-post-id="{{ $post->id }}">{{ $post->likes }}</span></h5>
     @auth
-    <button class="btn btn-primary" onclick="likePost({{ $post->id }})">Like</button>
+    <button class="btn btn-primary" onclick="likePost('{{ $post->id }}')">Like</button>
     @endauth
     <h5>Comments:</h5>
     <ul>
@@ -46,45 +47,47 @@
     @endauth
 </div>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     function likePost(postId) {
-        event.preventDefault();
-
-        fetch(`/posts/${postId}/like`, {
-            method: 'POST',
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                const likeCountElement = document.querySelector(`#like-count[data-post-id="${postId}"]`);
-                likeCountElement.textContent = parseInt(likeCountElement.textContent) + 1;
-            } else {
-                console.error('Error liking post:', data.message);
-            }
-        })
-        .catch(error => {
-            console.error('Network error:', error);
+        $.ajax({
+            type: 'POST',
+            url: '{{ route('like.post') }}',
+            data: {
+            _token: '{{ csrf_token() }}',
+            post_id: postId
+        },
+        success: function (response) {
+            const likeCountElement = document.getElementById('like-count');
+            likeCountElement.textContent = response.likes;
+        },
+        error: function (error) {
+            console.error(error);
+        }
         });
-    }
+        }
 
     function replyToComment(commentId) {
-        const replyForm = document.createElement('form');
-        replyForm.action = `/comments/${commentId}/replies`;
-        replyForm.method = 'POST';
-        replyForm.innerHTML = `
+        const commentElement = document.querySelector(`li[data-comment-id="${commentId}"]`);
+        const existingForm = commentElement.querySelector('.reply-form');
+
+
+        if (!existingForm) {
+            const replyForm = document.createElement('form');
+            replyForm.className = 'reply-form';
+            replyForm.action = `/comments/${commentId}/replies`;
+            replyForm.method = 'POST';
+            replyForm.innerHTML = `
             @csrf
             <div class="form-group">
                 <label for="reply-content">Your reply:</label>
                 <textarea name="content" id="reply-content" class="form-control" rows="3"></textarea>
             </div>
             <button type="submit" class="btn btn-primary">Reply</button>
-        `;
+            `;
 
-        const commentElement = document.querySelector(`li[data-comment-id="${commentId}"]`);
-        commentElement.appendChild(replyForm);
+            commentElement.appendChild(replyForm);
+        }
     }
 </script>
 @endsection
