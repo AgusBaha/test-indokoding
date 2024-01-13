@@ -4,11 +4,15 @@
 <div class="container">
     <h1>{{ $post->title }}</h1>
 
+    @if ($post->image)
+    <img src="{{ asset('storage/' . $post->image) }}" alt="Post Image" class="img-fluid">
+    @endif
+
     <p>{!! $post->content !!}</p>
 
     <h4>Posted by: {{ $post->author->name }} on {{ $post->created_at->format('M d, Y') }}</h4>
 
-    <h5>Likes: <span id="like-count" data-post-id="{{ $post->id }}">{{ $post->likes }}</span></h5>
+    <h5>Likes: <span id="like-count-{{ $post->id }}" data-post-id="{{ $post->id }}">{{ $post->likes }}</span></h5>
     @auth
     <button class="btn btn-primary" onclick="likePost('{{ $post->id }}')">Like</button>
     @endauth
@@ -58,14 +62,14 @@
             post_id: postId
         },
         success: function (response) {
-            const likeCountElement = document.getElementById('like-count');
+            const likeCountElement = document.getElementById(`like-count-${postId}`);
             likeCountElement.textContent = response.likes;
         },
         error: function (error) {
             console.error(error);
         }
         });
-        }
+    }
 
     function replyToComment(commentId) {
         const commentElement = document.querySelector(`li[data-comment-id="${commentId}"]`);
