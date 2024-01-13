@@ -4,6 +4,10 @@
 <div class="container">
     <h1>{{ $post->title }}</h1>
 
+    @if ($post->image)
+    <img src="{{ asset('storage/' . $post->image) }}" alt="Post Image" class="img-fluid">
+    @endif
+
     <p>{!! $post->content !!}</p>
 
     <h4>Posted by: {{ $post->author->name }} on {{ $post->created_at->format('M d, Y') }}</h4>

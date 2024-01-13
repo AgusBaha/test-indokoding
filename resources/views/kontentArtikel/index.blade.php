@@ -3,8 +3,16 @@
 @section('content')
 <div class="container">
     @foreach($posts as $post)
+
     <h1>{{ $post->title }}</h1>
+
+    @if ($post->image)
+    <img src="{{ asset('storage/' . $post->image) }}" alt="Post Image" class="img-fluid">
+    @endif
+
     <p>{!! $post->content !!}</p>
+
+
     <h4>Posted by: {{ $post->author->name }} on {{ $post->created_at->format('M d, Y') }}</h4>
 
     <h5>Likes: <span id="like-count-{{ $post->id }}" data-post-id="{{ $post->id }}">{{ $post->likes }}</span></h5>
@@ -69,12 +77,11 @@
             console.error(error);
         }
         });
-        }
+    }
 
     function replyToComment(commentId) {
         const commentElement = document.querySelector(`li[data-comment-id="${commentId}"]`);
         const existingForm = commentElement.querySelector('.reply-form');
-
 
         if (!existingForm) {
             const replyForm = document.createElement('form');
